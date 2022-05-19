@@ -6,13 +6,14 @@ const useTask = taskData => {
 
 	const addTask = useCallback(async () => {
 		const urlFbase =
-			'https://todolist-jaf-default-rtdb.europe-west1.firebasedatabase.app/';
+			'https://todolist-jaf-default-rtdb.europe-west1.firebasedatabase.app.json/';
 		try {
 			const response = await fetch(urlFbase, {
 				method: 'POST',
 				body: JSON.stringify(taskData),
 				headers: {
 					'Content-Type': 'application/json',
+					'Acces-Control-Allow-Origin': '*',
 				},
 			});
 

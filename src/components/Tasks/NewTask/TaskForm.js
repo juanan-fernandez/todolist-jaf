@@ -22,17 +22,25 @@ const TaskForm = ({ onSaveTask }) => {
 		setFormData(prev => ({ ...prev, [ev.target.name]: ev.target.value }));
 	};
 
-	<form onSubmit={onSubmitHandler}>
-		<label for='task'>Tarea</label>
-		<input name='task' type='text' onChange={onChangeHandler} value={formData.task} />
-		<label for='limitDate'>Fecha aprox. de finalización</label>
-		<input
-			type='date'
-			name='limitDate'
-			onChange={onChangeHandler}
-			value={formData.limitDate}
-		/>
-	</form>;
+	return (
+		<form onSubmit={onSubmitHandler}>
+			<label htmlFor='task'>Tarea</label>
+			<input
+				name='task'
+				type='text'
+				onChange={onChangeHandler}
+				value={formData.task}
+			/>
+			<label htmlFor='limitDate'>Fecha aprox. de finalización</label>
+			<input
+				type='date'
+				name='limitDate'
+				onChange={onChangeHandler}
+				value={formData.limitDate}
+			/>
+			<button type='submit'>Add</button>
+		</form>
+	);
 };
 
 export default TaskForm;
