@@ -13,7 +13,6 @@ const useTask = taskData => {
 				body: JSON.stringify(taskData),
 				headers: {
 					'Content-Type': 'application/json',
-					'Acces-Control-Allow-Origin': '*',
 				},
 			});
 
@@ -23,9 +22,11 @@ const useTask = taskData => {
 				);
 			}
 
-			const data = await response.json();
-			const fbaseId = data.name;
-			setNewTask({ id: fbaseId, ...taskData });
+			if (taskData) {
+				const data = await response.json();
+				const fbaseId = data.name;
+				setNewTask({ id: fbaseId, ...taskData });
+			}
 		} catch (err) {
 			setTerror(err.message | 'Algo no ha salido bien :-(');
 		}
@@ -34,7 +35,6 @@ const useTask = taskData => {
 	useEffect(() => {
 		addTask();
 	}, [addTask]);
-
 	return [terror, newTask];
 };
 

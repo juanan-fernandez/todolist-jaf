@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-const useTaskList = () => {
-	const [tasksFetched, setTasksFetched] = useState(null);
+const useHttp = (configRequest, transformData) => {
 	const [terror, setTerror] = useState('');
 	const [loading, setLoading] = useState(true);
 
-	const getTaskList = useCallback(async () => {
-		const urlFbase =
-			'https://todolist-jaf-default-rtdb.europe-west1.firebasedatabase.app/tasks.json/';
+	const sendRequest = useCallback(async () => {
 		try {
-			const response = await fetch(urlFbase, {
-				method: 'GET',
+			const response = await fetch(configRequest.url, {
+				method: configRequest.method ? configRequest.method : 'GET',
+				body: configRequest.body ? JSON.stringify(configRequest.body) : null,
+				headers: configRequest.headers ? configRequest.headers : {},
 			});
 
 			if (!response.ok) {
@@ -18,8 +17,16 @@ const useTaskList = () => {
 					'ERROR: de comunicación con la BD. No se ha podido recuperar la lista de tareas.'
 				);
 			}
+
+			if (1) {
+				throw new Error(
+					'ERROR: de comunicación con la BD. No se ha podido recuperar la lista de tareas.'
+				);
+			}
 			const tasksRetrieved = [];
 			const data = await response.json();
+			transformData(data);
+
 			for (const key in data) {
 				tasksRetrieved.push({
 					id: key,
@@ -30,19 +37,14 @@ const useTaskList = () => {
 					done: data[key].done,
 				});
 			}
-			setTasksFetched(tasksRetrieved);
 		} catch (err) {
 			setTerror(err.message | 'Algo no ha salido bien :-(');
 		} finally {
 			setLoading(false);
 		}
-	}, []);
+	}, [configRequest, transformData]);
 
-	useEffect(() => {
-		getTaskList();
-	}, [getTaskList]);
-
-	return { terror, loading, tasksFetched };
+	return { terror, loading, sendRequest };
 };
 
-export default useTaskList;
+export default useHttp;

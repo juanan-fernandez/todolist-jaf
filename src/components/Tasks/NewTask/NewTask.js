@@ -1,12 +1,8 @@
 import TaskForm from './TaskForm';
-import useTask from '../../../hooks/use-task';
-import { useState } from 'react';
 
-const NewTask = () => {
-	const [newTask, setNewTask] = useState(null);
-	const [terror, task] = useTask(newTask);
+const NewTask = ({ onAddTask }) => {
 	const onSaveTask = taskFormData => {
-		setNewTask(taskFormData);
+		onAddTask(taskFormData);
 	};
 
 	return (
