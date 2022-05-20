@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 
 const useTask = taskData => {
 	const [newTask, setNewTask] = useState(null);
-	const [terror, setTerror] = useState(null);
+	const [terror, setTerror] = useState('');
 
 	const addTask = useCallback(async () => {
 		const urlFbase =
-			'https://todolist-jaf-default-rtdb.europe-west1.firebasedatabase.app.json/';
+			'https://todolist-jaf-default-rtdb.europe-west1.firebasedatabase.app/tasks.json/';
 		try {
 			const response = await fetch(urlFbase, {
 				method: 'POST',

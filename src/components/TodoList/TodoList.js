@@ -1,4 +1,5 @@
 import NewTask from '../Tasks/NewTask/NewTask';
+import TaskList from '../Tasks/TaskList/TaskList';
 import Card from '../UI/Card/Card';
 
 const TodoList = () => {
@@ -8,7 +9,7 @@ const TodoList = () => {
 				<NewTask />
 			</Card>
 			<Card>
-				<p>Aquí va mi lista de tareas</p>
+				<TaskList />
 			</Card>
 		</>
 	);
