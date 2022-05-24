@@ -1,0 +1,16 @@
+.task-container {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+}
+
+.actions {
+   display: flex;
+   justify-content: flex-end;
+}
+
+.task-dates{
+   display: flex;
+   justify-content: flex-start;
+   gap:1rem;
+}

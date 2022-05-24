@@ -13,46 +13,38 @@ import ErrorMsg from '../UI/ErrorMsg/ErrorMsg';
 const TodoList = () => {
 	const urlFbase =
 		'https://todolist-jaf-default-rtdb.europe-west1.firebasedatabase.app/tasks.json/';
+
 	const [tasksList, setTasksList] = useState([]);
-	//const [addingTask, setAddingTask] = useState(null);
-	//const [errorAdding, savedTask] = useTask(addingTask);
-
-	const transformData = fetchedData => {
-		const fetchedTasks = [];
-		for (const key in fetchedData) {
-			fetchedTasks.push({
-				id: key,
-				task: fetchedData[key].task,
-				limitDate: fetchedData[key].limitDate,
-				createdDate: fetchedData[key].createdDate,
-				endDate: fetchedData[key].endDate,
-				done: fetchedData[key].done,
-			});
-		}
-		setTasksList(fetchedTasks);
-	};
-
-	const {
-		terror,
-		loading,
-		sendRequest: fetchTasks,
-	} = useHttp({ url: urlFbase }, transformData);
+	const { terror, loading, sendRequest: fetchTasks } = useHttp();
 
 	useEffect(() => {
-		fetchTasks();
-	}, []);
+		const transformData = fetchedData => {
+			const fetchedTasks = [];
+			for (const key in fetchedData) {
+				fetchedTasks.push({
+					id: key,
+					task: fetchedData[key].task,
+					limitDate: fetchedData[key].limitDate,
+					createdDate: fetchedData[key].createdDate,
+					endDate: fetchedData[key].endDate,
+					done: fetchedData[key].done,
+				});
+			}
+			setTasksList(fetchedTasks);
+		};
 
-	const addTaskHandler = newTask => {
-		// setAddingTask(newTask);
-		// if (savedTask) setTasksList(prevList => [...prevList, savedTask]);
+		fetchTasks({ url: urlFbase }, transformData);
+	}, [fetchTasks]);
+
+	const onAddTaskHandler = newTask => {
+		console.log(newTask);
+		if (newTask) setTasksList(prevList => [...prevList, newTask]);
 	};
-
-	console.log(terror);
 
 	return (
 		<>
 			<Card>
-				<NewTask onAddTask={addTaskHandler} />
+				<NewTask onAddTask={onAddTaskHandler} />
 			</Card>
 			{loading && <Spinner />}
 			{terror ? (

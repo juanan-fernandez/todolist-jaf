@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 
-const useHttp = (configRequest, transformData) => {
+const useHttp = transformData => {
 	const [terror, setTerror] = useState('');
 	const [loading, setLoading] = useState(true);
 
-	const sendRequest = useCallback(async () => {
+	const sendRequest = useCallback(async (configRequest, transformData) => {
 		try {
 			const response = await fetch(configRequest.url, {
 				method: configRequest.method ? configRequest.method : 'GET',
@@ -18,31 +18,14 @@ const useHttp = (configRequest, transformData) => {
 				);
 			}
 
-			if (1) {
-				throw new Error(
-					'ERROR: de comunicación con la BD. No se ha podido recuperar la lista de tareas.'
-				);
-			}
-			const tasksRetrieved = [];
 			const data = await response.json();
 			transformData(data);
-
-			for (const key in data) {
-				tasksRetrieved.push({
-					id: key,
-					task: data[key].task,
-					limitDate: data[key].limitDate,
-					createdDate: data[key].createdDate,
-					endDate: data[key].endDate,
-					done: data[key].done,
-				});
-			}
 		} catch (err) {
-			setTerror(err.message | 'Algo no ha salido bien :-(');
+			setTerror(err.message || 'Algo no ha salido bien :-(');
 		} finally {
 			setLoading(false);
 		}
-	}, [configRequest, transformData]);
+	}, []);
 
 	return { terror, loading, sendRequest };
 };

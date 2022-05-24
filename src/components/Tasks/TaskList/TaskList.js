@@ -1,3 +1,4 @@
+import Task from '../Task/Task';
 import styles from './TaskList.module.css';
 
 const TaskList = ({ tasksList }) => {
@@ -7,8 +8,12 @@ const TaskList = ({ tasksList }) => {
 				tasksList.map((task, index) => {
 					return (
 						<li key={task.id}>
-							{task.id}
-							{task.task}
+							<Task
+								id={task.id}
+								task={task.task}
+								limitDate={task.limitDate}
+								endDate={task.endDate}
+							/>
 						</li>
 					);
 				})}

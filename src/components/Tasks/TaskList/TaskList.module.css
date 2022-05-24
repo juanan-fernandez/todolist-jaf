@@ -1,8 +1,10 @@
 .list{
    list-style: none;
+   padding-left: 0.5rem;
+   margin-top: 0rem;
 }
 
 .list li {
    border-bottom: 1px solid #ccc;
-   padding: 1rem;
+   padding: 1rem 0rem 0.5rem 0.2rem;
 }
